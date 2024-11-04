@@ -1,7 +1,6 @@
 ﻿namespace FitnessProject.Entities
 {
-
-    public class GymnastEntity
+    public class TrainerEntity
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -10,15 +9,12 @@
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public Address Address { get; set; }
-        public CourseType Course { get; set; }
+        public string Specialization { get; set; }
+        public string Diploma { get; set; }
+        public TrainerEntity() { }
 
-        public GymnastEntity()
-        {
-
-        }
-
-        public GymnastEntity(int id, string firstName, string lastName, DateOnly dateOfBirth,
-            string phoneNumber, string email, Address address, CourseType course)
+        public TrainerEntity(int id, string firstName, string lastName, DateOnly dateOfBirth,
+            string phoneNumber, string email, Address address, string specialization, string diploma)
         {
             Id = id;
             FirstName = firstName;
@@ -27,7 +23,8 @@
             PhoneNumber = phoneNumber;
             Email = email;
             Address = address;
-            Course = course;
+            Specialization = specialization;
+            Diploma = diploma;
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FitnessProject.Entities;
+using FitnessProject.Services;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +12,42 @@ namespace FitnessProject.Controllers
     [ApiController]
     public class LessonController : ControllerBase
     {
+        readonly GymnastService _gymnastService;
+        //private object result;
+        public LessonController()
+        {
+            _gymnastService = new GymnastService();
+        }
         // GET: api/<LessonController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<List<GymnastEntity>> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<LessonController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            List<GymnastEntity> result = _gymnastService.GymnastList;
+            if (result == null)
+                return Unauthorized();
+            return result;
         }
 
         // POST api/<LessonController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<bool> Post([FromBody] GymnastEntity value)
         {
+            return _gymnastService.AddGymnast(value);
         }
 
         // PUT api/<LessonController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] GymnastEntity value)
         {
+            _gymnastService.UpdateGymnast(id, value);
         }
 
         // DELETE api/<LessonController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            GymnastEntity current = _gymnastService.getID(id);
+            _gymnastService.GymnastList.Remove(current);
         }
     }
 }
