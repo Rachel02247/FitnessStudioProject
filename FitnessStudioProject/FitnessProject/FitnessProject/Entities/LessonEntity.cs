@@ -3,9 +3,9 @@
     public class LessonEntity
     {
         public int Id { get; set; }
-        public CourseEntity Course { get; set; }
-        public RoomEntity Room { get; set; }
-        public DateOnly Date { get; set; }
+        public int  CourseId  { get; set; }
+        public int RoomId { get; set; }
+        public DateTime Date { get; set; }
         public string Day { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
@@ -15,12 +15,12 @@
         {
 
         }
-        public LessonEntity(int id,CourseEntity course, RoomEntity room, DateOnly date, string day,
+        public LessonEntity(int id,int courseId, int roomId, DateTime date, string day,
             TimeOnly startTime, TimeOnly endTime, int participantsAmount)
         {
             Id = id;
-            Course = course;
-            Room = room;
+            CourseId = courseId;
+            RoomId = roomId;
             Date = date;
             Day = day;
             StartTime = startTime;

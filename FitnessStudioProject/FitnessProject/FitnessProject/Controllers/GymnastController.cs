@@ -14,41 +14,59 @@ namespace FitnessProject.Controllers
     {
         readonly GymnastService _gymnastService;
         //private object result;
-        public GymnastController()
+        public GymnastController(GymnastService gymnastService)
         {
-            _gymnastService = new GymnastService();
+            _gymnastService = gymnastService;
         }
         // GET: api/<GymnastController>
         [HttpGet]
         public ActionResult<List<GymnastEntity>> Get()
         {
-            List<GymnastEntity> result = _gymnastService.GymnastList;
-            if (result == null)
-                return Unauthorized();
-            return result;
+           return _gymnastService.GetAll();
         }
 
-
+        // GET api/<GymnastController>/5
+        [HttpGet("{id}")]
+        public ActionResult<GymnastEntity> GetById(int id)
+        {
+            if (id < 0)
+                return BadRequest();
+            var gymnast = _gymnastService.GetByID(id);
+            if(gymnast == null)
+                return NotFound();
+            return gymnast;
+        }
         // POST api/<GymnastController>
         [HttpPost]
         public ActionResult<bool> Post([FromBody] GymnastEntity value)
         {
-            return _gymnastService.AddGymnast(value);
+            bool isSuccess = _gymnastService.AddGymnast(value);
+            if (isSuccess)
+                return Ok(true);
+            return BadRequest("ID exists in the system or the file do not found");
+            
         }
 
         // PUT api/<GymnastController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] GymnastEntity value)
+        public ActionResult Put(int id, [FromBody] GymnastEntity value)
         {
-            _gymnastService.UpdateGymnast(id, value);
+            bool isSuccess = _gymnastService.UpdateGymnast(id, value);
+            if (isSuccess)
+                return Ok(true);
+            return NotFound();
         }
 
         // DELETE api/<GymnastController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            GymnastEntity current = _gymnastService.getID(id);
-            _gymnastService.GymnastList.Remove(current);
+            bool isSuccess = _gymnastService.DeleteGymnast(id);
+            if (isSuccess)
+                return Ok(true);
+            return NotFound();
         }
+
+
     }
 }

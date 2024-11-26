@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public Address Address { get; set; }
@@ -13,7 +13,7 @@
         public string Diploma { get; set; }
         public TrainerEntity() { }
 
-        public TrainerEntity(int id, string firstName, string lastName, DateOnly dateOfBirth,
+        public TrainerEntity(int id, string firstName, string lastName, DateTime dateOfBirth,
             string phoneNumber, string email, Address address, string specialization, string diploma)
         {
             Id = id;

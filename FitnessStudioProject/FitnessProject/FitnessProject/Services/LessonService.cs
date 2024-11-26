@@ -1,31 +1,40 @@
 ﻿using FitnessProject.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessProject.Services
 {
     public class LessonService
     {
-        public List<LessonEntity> LessonList { get; set; }
-        public LessonService()
+        public DataContextManager LessonList;
+        
+        public List<LessonEntity>? GetAll()
         {
-            LessonList = new List<LessonEntity>();
+            return LessonList.Data.LessontList == null ? null : LessonList.Data.LessontList;
         }
         public bool AddLesson(LessonEntity lessondb)
         {
-            if (LessonList == null)
+            if (LessonList.Data.LessontList == null)
                 return false;
-            LessonList.Add(lessondb);
+            LessonList.Data.LessontList.Add(lessondb);
             return true;
         }
-        public LessonEntity getID(int id)
+        public LessonEntity GetByID(int id)
         {
-            if (LessonList == null)
+            if (id < 0)
+                return BadRequest();
+            if (LessonList.Data.LessontList == null)
             { return null; }
-            return LessonList.Where(c => c.Id == id).FirstOrDefault<LessonEntity>();
+            return LessonList.Data.LessontList.Where(c => c.Id == id).FirstOrDefault<LessonEntity>();
         }
-     
+
+        private LessonEntity BadRequest()
+        {
+            throw new NotImplementedException();
+        }
+
         public void UpdateLesson(int id, LessonEntity value)
         {
-            LessonList.Insert(id, value);
+          //  LessonList.Insert(id, value);
         }
     }
 }

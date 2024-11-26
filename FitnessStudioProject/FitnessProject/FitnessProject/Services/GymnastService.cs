@@ -1,37 +1,57 @@
 ﻿using FitnessProject.Entities;
+using System.Linq.Expressions;
 
 namespace FitnessProject.Services
 {
     public class GymnastService
     {
-        public List<GymnastEntity> GymnastList { get; set; }
-        public GymnastService()
+        readonly IDataContextGymnast _gymnastService;
+
+        public GymnastService(IDataContextGymnast gymnastService)
         {
-            GymnastList = new List<GymnastEntity>();
+            _gymnastService = gymnastService;
+        }
+        public List<GymnastEntity>? GetAll()
+        {
+            var data = _gymnastService.LoadData();
+            return data == null ? null : data;
+        }
+        public GymnastEntity GetByID(int id)
+        {
+            var data = _gymnastService.LoadData();
+            if (data == null || data.FindIndex(c => c.Id == id) == -1)
+                return null;
+            return data.Where(c => c.Id == id).FirstOrDefault();
         }
         public bool AddGymnast(GymnastEntity gymnastdb)
         {
-            if (GymnastList == null)
+            var data = _gymnastService.LoadData();
+            if(data == null)
+               return false;
+            if ( data.Find(c => c.Id == gymnastdb.Id) != null || !ValidationCheck.IsValidID(gymnastdb.Id.ToString()) || !ValidationCheck.IsValidEmail(gymnastdb.Email))
                 return false;
-            GymnastList.Add(gymnastdb);
-            return true;
+            data.Add(gymnastdb);
+            return _gymnastService.SaveData(data);
         }
-        public GymnastEntity getID(int id)
+       
+        public bool UpdateGymnast(int id, GymnastEntity gymnastdb)
         {
-            if (GymnastList == null)
-            { return null; }
-            return GymnastList.Where(c => c.Id == id).FirstOrDefault<GymnastEntity>();
+            var data = _gymnastService.LoadData();
+            if (data == null || data.Find(c => c.Id == id) == null)
+                return false;
+            int index = data.FindIndex(c => c.Id == id);
+            data[index] = gymnastdb;
+            return _gymnastService.SaveData(data);
         }
-        //public int IDForId(string id)
-        //{
-        //    if (GymnastList == null)
-        //        return 0;
-        //    return GymnastList.Where(c => c.Id == id).
-        //}
-
-        public void UpdateGymnast(int id, GymnastEntity value)
+        public bool DeleteGymnast(int id)
         {
-            GymnastList.Insert(id, value);
+            if (id < 0) 
+                return false;   
+            var data = _gymnastService.LoadData();
+            if(data == null || data.Find(c => c.Id == id) == null )
+                return false;
+            data.Remove(data.Find(c => c.Id == id));
+            return _gymnastService.SaveData(data);
         }
 
     }

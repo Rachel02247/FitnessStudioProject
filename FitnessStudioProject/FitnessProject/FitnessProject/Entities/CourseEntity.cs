@@ -8,22 +8,22 @@
         public int Id {  get; set; }
         public CourseType Name { get; set; }
         public int MeetingNumbers { get; set; }
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set; }
-        public TrainerEntity Trainer { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int TrainerId { get; set; }
         public Rooms PreferredRoom { get; set; }
         public string Equipment { get; set; }
         public CourseEntity() { }
 
-        public CourseEntity(CourseType name, int meetingNumbers, DateOnly startDate,
-            DateOnly endDate, TrainerEntity trainer, Rooms preferredRoom, string equipment)
+        public CourseEntity(CourseType name, int meetingNumbers, DateTime startDate,
+            DateTime endDate, int trainerId, Rooms preferredRoom, string equipment)
         {
             
             Name = name;
             MeetingNumbers = meetingNumbers;
             StartDate = startDate;
             EndDate = endDate;
-            Trainer = trainer;
+            TrainerId = trainerId;
             PreferredRoom = preferredRoom;
             Equipment = equipment;
         }

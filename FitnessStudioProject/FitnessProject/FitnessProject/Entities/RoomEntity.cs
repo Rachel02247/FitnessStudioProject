@@ -1,7 +1,7 @@
 ﻿namespace FitnessProject.Entities
 {
     [Flags]
-    public enum Rooms { NIKE = 0, ADIDAS = 1, PUMA = 2, JARDEN = 4, RIBOCK = 8, ALLO = 16, LULO_LEMMON = 32 }
+    public enum Rooms { NIKE = 0, ADIDAS = 1, PUMA = 2, JARDEN = 4, RIBOCK = 8, ALO = 16, LULO_LEMMON = 32 }
 
     public class RoomEntity
     {
